@@ -11,7 +11,9 @@ const schemaPath = path.resolve(__dirname, 'schema.sql');
 export function initializeDatabase() {
   const schema = fs.readFileSync(schemaPath, 'utf8');
   db.exec(schema);
+
   ensureFacultyDepartmentColumn();
+  ensureAttendanceTable();
   seedDefaultAdmin();
 }
 

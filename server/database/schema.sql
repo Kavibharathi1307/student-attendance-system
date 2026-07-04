@@ -44,3 +44,16 @@ CREATE TABLE IF NOT EXISTS attendance (
   FOREIGN KEY (studentId) REFERENCES students(id) ON DELETE CASCADE,
   FOREIGN KEY (facultyId) REFERENCES faculty(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS qr_sessions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    token TEXT UNIQUE NOT NULL,
+    facultyId INTEGER NOT NULL,
+    subject TEXT NOT NULL,
+    attendanceDate TEXT NOT NULL,
+    expiresAt TEXT NOT NULL,
+    isActive INTEGER DEFAULT 1,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (facultyId) REFERENCES faculty(id)
+);
