@@ -18,6 +18,11 @@ CREATE TABLE IF NOT EXISTS students (
   userId INTEGER NOT NULL UNIQUE,
   fullName TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
+  studentId TEXT,
+  department TEXT,
+  phone TEXT,
+  address TEXT,
+  status TEXT DEFAULT 'Active',
   createdAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );

@@ -6,6 +6,7 @@ import attendanceRoutes from './attendanceRoutes.js';
 import studentRoutes from './studentRoutes.js';
 import analyticsRoutes from './analyticsRoutes.js';
 import reportRoutes from './reportRoutes.js';
+import qrAttendanceRoutes from './qrAttendanceRoutes.js';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/attendance', attendanceRoutes);
 router.use('/students', studentRoutes);
 router.use('/analytics', analyticsRoutes);
 router.use('/reports', reportRoutes);
+router.use('/qr', qrAttendanceRoutes);
 
 export default router;

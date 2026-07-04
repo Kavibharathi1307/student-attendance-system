@@ -9,6 +9,7 @@ function StudentListPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [students, setStudents] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [department, setDepartment] = useState('');
@@ -18,7 +19,7 @@ function StudentListPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
 
-  const perPage = 8;
+  const perPage = 10;
 
   useEffect(() => {
     loadStudents();
@@ -28,29 +29,18 @@ function StudentListPage() {
     setLoading(true);
     try {
       const payload = await listStudents({ q: query, department, status, page });
-      const raw = Array.isArray(payload) ? payload : payload?.data || [];
-      const normalized = raw.map((student) => ({
-        ...student,
-        status: student.status || 'Active',
-        department: student.department || 'General'
-      }));
-      const filtered = normalized.filter((student) => {
-        const matchesQuery = !query || `${student.fullName} ${student.email}`.toLowerCase().includes(query.toLowerCase());
-        const matchesDepartment = !department || student.department === department;
-        const matchesStatus = !status || student.status === status;
-        return matchesQuery && matchesDepartment && matchesStatus;
-      });
-      setStudents(filtered);
+      setStudents(payload.data || []);
+      setTotal(payload.total || 0);
     } catch (error) {
       setStudents([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
   }
 
-  const departments = useMemo(() => Array.from(new Set(students.map((student) => student.department).filter(Boolean))), [students]);
-  const totalPages = Math.max(1, Math.ceil(students.length / perPage));
-  const pagedStudents = students.slice((page - 1) * perPage, page * perPage);
+  const departments = useMemo(() => Array.from(new Set(students.map((s) => s.department).filter(Boolean))), [students]);
+  const totalPages = Math.max(1, Math.ceil(total / perPage));
 
   function handleDelete(student) {
     setSelectedStudent(student);
@@ -141,10 +131,10 @@ function StudentListPage() {
         </div>
       </div>
 
-      <StudentTable students={pagedStudents} loading={loading} onDelete={handleDelete} onEdit={() => {}} onView={handleView} />
+      <StudentTable students={students} loading={loading} onDelete={handleDelete} onView={handleView} />
 
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
-        <span className="text-sm text-slate-600">Showing {pagedStudents.length} of {students.length} students</span>
+        <span className="text-sm text-slate-600">Page {page} of {totalPages} ({total} total)</span>
         <div className="flex items-center gap-2">
           <button
             className="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700 transition disabled:cursor-not-allowed disabled:opacity-50"

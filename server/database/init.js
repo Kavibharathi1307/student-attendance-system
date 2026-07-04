@@ -13,6 +13,7 @@ export function initializeDatabase() {
   db.exec(schema);
 
   ensureFacultyDepartmentColumn();
+  ensureStudentColumns();
   ensureAttendanceTable();
   seedDefaultAdmin();
 }
@@ -27,6 +28,31 @@ function ensureFacultyDepartmentColumn() {
     }
   } catch (err) {
     // if faculty table does not exist yet, skip - it will be created by schema
+  }
+}
+
+function ensureStudentColumns() {
+  try {
+    const info = db.prepare("PRAGMA table_info('students')").all();
+    const cols = info.map((col) => col.name);
+
+    if (!cols.includes('studentId')) {
+      db.prepare("ALTER TABLE students ADD COLUMN studentId TEXT").run();
+    }
+    if (!cols.includes('department')) {
+      db.prepare("ALTER TABLE students ADD COLUMN department TEXT").run();
+    }
+    if (!cols.includes('phone')) {
+      db.prepare("ALTER TABLE students ADD COLUMN phone TEXT").run();
+    }
+    if (!cols.includes('address')) {
+      db.prepare("ALTER TABLE students ADD COLUMN address TEXT").run();
+    }
+    if (!cols.includes('status')) {
+      db.prepare("ALTER TABLE students ADD COLUMN status TEXT DEFAULT 'Active'").run();
+    }
+  } catch (err) {
+    // if students table does not exist yet, skip - it will be created by schema
   }
 }
 
