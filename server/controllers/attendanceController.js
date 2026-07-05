@@ -1,10 +1,55 @@
 import {
   listAttendance,
+  listAttendanceHistory,
+  exportAttendanceHistoryCsv,
   getAttendanceDetails,
   createAttendance as createAttendanceService,
   updateAttendance as updateAttendanceService,
   deleteAttendance as deleteAttendanceService
 } from '../services/attendanceService.js';
+
+export function attendanceHistoryHandler(request, response) {
+  const { page, limit, subject, status, from, to, student, faculty } = request.query;
+  const pageNum = Number(page) || 1;
+  const perPage = Number(limit) || 10;
+
+  const result = listAttendanceHistory({
+    user: request.user,
+    subject,
+    status,
+    dateFrom: from,
+    dateTo: to,
+    student,
+    facultyId: faculty ? Number(faculty) : undefined,
+    page: pageNum,
+    perPage
+  });
+
+  response.json(result);
+}
+
+export function attendanceHistoryCsvHandler(request, response) {
+  const { subject, status, from, to, student, faculty } = request.query;
+
+  const data = exportAttendanceHistoryCsv({
+    user: request.user,
+    subject,
+    status,
+    dateFrom: from,
+    dateTo: to,
+    student,
+    facultyId: faculty ? Number(faculty) : undefined
+  });
+
+  const header = 'Date,Student,Register Number,Faculty,Subject,Status\n';
+  const rows = data.map((r) =>
+    `"${r.attendanceDate}","${r.studentName}","${r.registerNumber || ''}","${r.facultyName}","${r.subject}","${r.status}"`
+  ).join('\n');
+
+  response.setHeader('Content-Type', 'text/csv');
+  response.setHeader('Content-Disposition', 'attachment; filename=attendance-history.csv');
+  response.send(header + rows);
+}
 
 export function listAttendanceHandler(request, response) {
   const { q, department, facultyId, subject, date, status, page } = request.query;

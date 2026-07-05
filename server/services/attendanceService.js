@@ -1,15 +1,37 @@
 import {
   countAttendance,
   getAttendance,
+  getAllAttendance,
   getAttendanceById,
+  getAttendanceStats,
   findDuplicateAttendance,
   createAttendanceRecord,
   updateAttendanceRecord,
   deleteAttendanceById
 } from '../models/attendanceModel.js';
 
+import { getStudentByUserId } from '../models/studentModel.js';
+import { getFacultyByUserId } from '../models/facultyModel.js';
 import { httpError } from '../utils/httpError.js';
 import { db } from '../config/database.js';
+
+export function listAttendanceHistory({ user, ...filters }) {
+  if (user.role === 'student') {
+    const student = getStudentByUserId(user.id);
+    if (!student) throw httpError(404, 'Student profile not found.');
+    filters.studentId = student.id;
+  } else if (user.role === 'faculty') {
+    const faculty = getFacultyByUserId(user.id);
+    if (!faculty) throw httpError(404, 'Faculty profile not found.');
+    filters.facultyId = faculty.id;
+  }
+
+  const total = countAttendance(filters);
+  const data = getAttendance(filters);
+  const stats = getAttendanceStats(filters);
+
+  return { total, perPage: filters.perPage || 10, page: filters.page || 1, data, stats };
+}
 
 export function listAttendance(filters) {
   const total = countAttendance(filters);
@@ -56,6 +78,18 @@ export function updateAttendance(id, payload) {
   updateAttendanceRecord(id, payload);
 
   return getAttendanceById(id);
+}
+
+export function exportAttendanceHistoryCsv({ user, ...filters }) {
+  if (user.role === 'student') {
+    throw httpError(403, 'Students cannot export attendance data.');
+  } else if (user.role === 'faculty') {
+    const faculty = getFacultyByUserId(user.id);
+    if (!faculty) throw httpError(404, 'Faculty profile not found.');
+    filters.facultyId = faculty.id;
+  }
+
+  return getAllAttendance(filters);
 }
 
 export function deleteAttendance(id) {

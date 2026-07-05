@@ -24,6 +24,9 @@ import FacultyQrAttendance from './pages/FacultyQrAttendance.jsx';
 import StudentQrAttendance from './pages/StudentQrAttendance.jsx';
 import AdminQrSessions from './pages/AdminQrSessions.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import StudentAttendanceHistory from './pages/StudentAttendanceHistory.jsx';
+import FacultyAttendanceHistory from './pages/FacultyAttendanceHistory.jsx';
+import AdminAttendanceHistory from './pages/AdminAttendanceHistory.jsx';
 
 function App() {
   return (
@@ -51,6 +54,7 @@ function App() {
             <Route path="students/:id/edit" element={<StudentForm />} />
             <Route path="attendance" element={<AttendanceList />} />
             <Route path="attendance/mark" element={<MarkAttendance />} />
+            <Route path="attendance/history" element={<AdminAttendanceHistory />} />
             <Route path="attendance/:id" element={<AttendanceDetails />} />
             <Route path="attendance/:id/edit" element={<EditAttendance />} />
             <Route path="qr-sessions" element={<AdminQrSessions />} />
@@ -64,6 +68,7 @@ function App() {
           >
             <Route path="dashboard" element={<FacultyDashboard />} />
             <Route path="qr" element={<FacultyQrAttendance />} />
+            <Route path="attendance/history" element={<FacultyAttendanceHistory />} />
           </Route>
         </Route>
 
@@ -74,6 +79,7 @@ function App() {
           >
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="qr" element={<StudentQrAttendance />} />
+            <Route path="attendance/history" element={<StudentAttendanceHistory />} />
           </Route>
         </Route>
 

@@ -27,3 +27,13 @@ export function listStudents(params) {
 export function listFaculty(params) {
   return api.get('/faculty', { params }).then((r) => r.data);
 }
+
+export function getAttendanceHistory(params) {
+  return api.get('/attendance/history', { params }).then((r) => r.data);
+}
+
+export function exportAttendanceHistoryCsv(params) {
+  return api
+    .get('/attendance/history/export/csv', { params, responseType: 'blob' })
+    .then((r) => r.data);
+}

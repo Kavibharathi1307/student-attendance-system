@@ -10,13 +10,14 @@ const attendanceFields = `
   a.remarks,
   a.createdAt,
   s.fullName as studentName,
+  IFNULL(s.studentId, '') as registerNumber,
   f.fullName as facultyName,
   f.department as facultyDepartment
 `;
 
 const attendanceJoin = 'FROM attendance a JOIN students s ON s.id = a.studentId JOIN faculty f ON f.id = a.facultyId';
 
-function buildAttendanceFilterQuery({ q, student, department, facultyId, subject, date, dateFrom, dateTo, status }) {
+function buildAttendanceFilterQuery({ q, student, studentId, department, facultyId, subject, date, dateFrom, dateTo, status }) {
   let where = 'WHERE 1=1';
   const params = {};
 
@@ -41,6 +42,11 @@ function buildAttendanceFilterQuery({ q, student, department, facultyId, subject
     } else {
       where += ' AND s.fullName LIKE @student';
     }
+  }
+
+  if (studentId) {
+    where += ' AND a.studentId = @studentId';
+    params.studentId = studentId;
   }
 
   if (department) {
@@ -88,11 +94,26 @@ export function countAttendance(filters) {
   return row?.count || 0;
 }
 
-export function getAttendance({ q, department, facultyId, subject, date, dateFrom, dateTo, status, page = 1, perPage = 10 }) {
+export function getAttendance({ q, student, studentId, department, facultyId, subject, date, dateFrom, dateTo, status, page = 1, perPage = 10 }) {
   const offset = (page - 1) * perPage;
-  const { where, params } = buildAttendanceFilterQuery({ q, department, facultyId, subject, date, dateFrom, dateTo, status });
+  const { where, params } = buildAttendanceFilterQuery({ q, student, studentId, department, facultyId, subject, date, dateFrom, dateTo, status });
   const stmt = db.prepare(`SELECT ${attendanceFields} ${attendanceJoin} ${where} ORDER BY a.attendanceDate DESC LIMIT @perPage OFFSET @offset`);
   return stmt.all({ ...params, offset, perPage });
+}
+
+export function getAttendanceStats(filters) {
+  const { where, params } = buildAttendanceFilterQuery(filters);
+  const total = db.prepare(`SELECT COUNT(*) as count ${attendanceJoin} ${where}`).get(params).count;
+  const present = db.prepare(`SELECT COUNT(*) as count ${attendanceJoin} ${where} AND a.status = 'Present'`).get(params).count;
+  const absent = db.prepare(`SELECT COUNT(*) as count ${attendanceJoin} ${where} AND a.status = 'Absent'`).get(params).count;
+  const late = db.prepare(`SELECT COUNT(*) as count ${attendanceJoin} ${where} AND a.status = 'Late'`).get(params).count;
+  return { total, present, absent, late };
+}
+
+export function getAllAttendance(filters) {
+  const { where, params } = buildAttendanceFilterQuery(filters);
+  const stmt = db.prepare(`SELECT ${attendanceFields} ${attendanceJoin} ${where} ORDER BY a.attendanceDate DESC`);
+  return stmt.all(params);
 }
 
 export function getAttendanceReport(filters) {

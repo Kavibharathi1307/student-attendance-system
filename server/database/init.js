@@ -163,12 +163,13 @@ function seedDefaultStudent() {
   });
 
   db.prepare(
-    `INSERT INTO students (userId, fullName, email, department, status)
-     VALUES (@userId, @fullName, @email, @department, @status)`
+    `INSERT INTO students (userId, fullName, email, studentId, department, status)
+     VALUES (@userId, @fullName, @email, @studentId, @department, @status)`
   ).run({
     userId: result.lastInsertRowid,
     fullName: 'Demo Student',
     email: 'student@student.com',
+    studentId: 'STU001',
     department: 'Computer Science',
     status: 'Active'
   });

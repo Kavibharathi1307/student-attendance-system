@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import {
   listAttendanceHandler,
+  attendanceHistoryHandler,
+  attendanceHistoryCsvHandler,
   getAttendanceHandler,
   createAttendanceHandler,
   updateAttendanceHandler,
@@ -15,6 +17,8 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/', asyncHandler(listAttendanceHandler));
+router.get('/history', asyncHandler(attendanceHistoryHandler));
+router.get('/history/export/csv', asyncHandler(attendanceHistoryCsvHandler));
 router.get('/:id', asyncHandler(getAttendanceHandler));
 
 router.post('/', authorizeRoles('admin', 'faculty'), validateAttendanceCreate, asyncHandler(createAttendanceHandler));
