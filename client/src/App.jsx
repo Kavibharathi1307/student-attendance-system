@@ -20,6 +20,10 @@ import StudentDashboard from './pages/StudentDashboard.jsx';
 import StudentListPage from './pages/StudentListPage.jsx';
 import StudentForm from './pages/StudentForm.jsx';
 import StudentDetailsPage from './pages/StudentDetailsPage.jsx';
+import FacultyQrAttendance from './pages/FacultyQrAttendance.jsx';
+import StudentQrAttendance from './pages/StudentQrAttendance.jsx';
+import AdminQrSessions from './pages/AdminQrSessions.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
 
 function App() {
   return (
@@ -30,10 +34,11 @@ function App() {
 
         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
           <Route
-            element={<DashboardLayout role="admin" title="Analytics Dashboard" />}
+            element={<DashboardLayout role="admin" title="Admin Dashboard" />}
             path="/admin"
           >
-            <Route index element={<Navigate replace to="analytics" />} />
+            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="analytics" element={<AnalyticsDashboard />} />
             <Route path="reports" element={<ReportsPage />} />
             <Route path="faculty" element={<FacultyList />} />
@@ -48,6 +53,7 @@ function App() {
             <Route path="attendance/mark" element={<MarkAttendance />} />
             <Route path="attendance/:id" element={<AttendanceDetails />} />
             <Route path="attendance/:id/edit" element={<EditAttendance />} />
+            <Route path="qr-sessions" element={<AdminQrSessions />} />
           </Route>
         </Route>
 
@@ -57,6 +63,7 @@ function App() {
             path="/faculty"
           >
             <Route path="dashboard" element={<FacultyDashboard />} />
+            <Route path="qr" element={<FacultyQrAttendance />} />
           </Route>
         </Route>
 
@@ -66,6 +73,7 @@ function App() {
             path="/student"
           >
             <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="qr" element={<StudentQrAttendance />} />
           </Route>
         </Route>
 

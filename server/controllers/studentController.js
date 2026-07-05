@@ -1,6 +1,7 @@
 import {
   listStudents,
   getStudentDetails,
+  getStudentDashboard,
   createStudent as createStudentService,
   updateStudent as updateStudentService,
   deleteStudent as deleteStudentService
@@ -37,6 +38,11 @@ export function updateStudentHandler(request, response) {
   const updated = updateStudentService(Number(id), { fullName, email, studentId, department, phone, address, status });
 
   response.json({ message: 'Student updated', student: updated });
+}
+
+export function studentDashboardHandler(request, response) {
+  const result = getStudentDashboard(request.user.id);
+  response.json(result);
 }
 
 export function deleteStudentHandler(request, response) {

@@ -1,3 +1,4 @@
+import { db } from '../config/database.js';
 import {
   countFaculty,
   getFaculty,
@@ -78,6 +79,59 @@ export function updateFaculty(id, { fullName, email, department }) {
   updateFacultyRecord(id, { fullName: fullName.trim(), email: normalizedEmail, department });
 
   return getFacultyById(id);
+}
+
+export function getFacultyDashboard(userId) {
+  const faculty = getFacultyByUserId(userId);
+
+  if (!faculty) {
+    throw httpError(404, 'Faculty profile not found.');
+  }
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+
+  const todayAttendance = db
+    .prepare('SELECT COUNT(*) as count FROM attendance WHERE facultyId = ? AND attendanceDate = ?')
+    .get(faculty.id, todayStr).count;
+
+  const totalStudents = db
+    .prepare('SELECT COUNT(*) as count FROM students')
+    .get().count;
+
+  const totalAttendance = db
+    .prepare('SELECT COUNT(*) as count FROM attendance WHERE facultyId = ?')
+    .get(faculty.id).count;
+
+  const recentAttendance = db
+    .prepare(
+      `SELECT a.id, a.attendanceDate, a.status, a.subject,
+              s.fullName as studentName
+       FROM attendance a
+       JOIN students s ON s.id = a.studentId
+       WHERE a.facultyId = ?
+       ORDER BY a.createdAt DESC
+       LIMIT 10`
+    )
+    .all(faculty.id);
+
+  const activeQrSession = db
+    .prepare(
+      `SELECT id, token, subject, attendanceDate, expiresAt
+       FROM qr_sessions
+       WHERE facultyId = ? AND isActive = 1 AND expiresAt > datetime('now')
+       ORDER BY createdAt DESC
+       LIMIT 1`
+    )
+    .get(faculty.id);
+
+  return {
+    faculty: { id: faculty.id, fullName: faculty.fullName, email: faculty.email, department: faculty.department },
+    todayAttendance,
+    totalStudents,
+    totalAttendance,
+    recentAttendance,
+    activeQrSession: activeQrSession || null
+  };
 }
 
 export function deleteFaculty(id) {

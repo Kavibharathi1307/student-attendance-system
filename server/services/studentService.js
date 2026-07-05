@@ -1,3 +1,4 @@
+import { db } from '../config/database.js';
 import {
   getStudents,
   getStudentById,
@@ -95,6 +96,83 @@ export function updateStudent(id, { fullName, email, studentId, department, phon
   });
 
   return getStudentById(id);
+}
+
+export function getStudentDashboard(userId) {
+  const student = getStudentByUserId(userId);
+
+  if (!student) {
+    throw httpError(404, 'Student profile not found.');
+  }
+
+  const totalAttendance = db
+    .prepare(
+      `SELECT COUNT(*) as count FROM attendance a
+       JOIN students s ON s.id = a.studentId
+       WHERE s.userId = ?`
+    )
+    .get(userId).count;
+
+  const presentCount = db
+    .prepare(
+      `SELECT COUNT(*) as count FROM attendance a
+       JOIN students s ON s.id = a.studentId
+       WHERE s.userId = ? AND a.status = 'Present'`
+    )
+    .get(userId).count;
+
+  const absentCount = db
+    .prepare(
+      `SELECT COUNT(*) as count FROM attendance a
+       JOIN students s ON s.id = a.studentId
+       WHERE s.userId = ? AND a.status = 'Absent'`
+    )
+    .get(userId).count;
+
+  const lateCount = db
+    .prepare(
+      `SELECT COUNT(*) as count FROM attendance a
+       JOIN students s ON s.id = a.studentId
+       WHERE s.userId = ? AND a.status = 'Late'`
+    )
+    .get(userId).count;
+
+  const attendancePct = totalAttendance ? Math.round((presentCount / totalAttendance) * 100) : 0;
+
+  const recentAttendance = db
+    .prepare(
+      `SELECT a.id, a.attendanceDate, a.status, a.subject, a.remarks,
+              f.fullName as facultyName
+       FROM attendance a
+       JOIN students s ON s.id = a.studentId
+       JOIN faculty f ON f.id = a.facultyId
+       WHERE s.userId = ?
+       ORDER BY a.createdAt DESC
+       LIMIT 10`
+    )
+    .all(userId);
+
+  const activeQrSessions = db
+    .prepare(
+      `SELECT id, token, subject, attendanceDate, facultyId, expiresAt
+       FROM qr_sessions
+       WHERE isActive = 1 AND expiresAt > datetime('now')
+       ORDER BY createdAt DESC`
+    )
+    .all();
+
+  return {
+    student,
+    attendance: {
+      total: totalAttendance,
+      present: presentCount,
+      absent: absentCount,
+      late: lateCount,
+      percentage: attendancePct
+    },
+    recentAttendance,
+    activeQrSessions
+  };
 }
 
 export function deleteStudent(id) {

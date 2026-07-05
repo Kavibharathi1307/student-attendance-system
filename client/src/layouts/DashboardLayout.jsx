@@ -1,22 +1,25 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { BarChart3, BookOpenCheck, GraduationCap, LayoutDashboard, LogOut, ShieldCheck, Sparkles, Users } from 'lucide-react';
+import { BarChart3, BookOpenCheck, GraduationCap, LayoutDashboard, LogOut, QrCode, ShieldCheck, Sparkles, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 
 const navItems = {
   admin: [
-    { label: 'Analytics', to: '/admin/analytics', icon: LayoutDashboard },
+    { label: 'Dashboard', to: '/admin/dashboard', icon: LayoutDashboard },
+    { label: 'Analytics', to: '/admin/analytics', icon: Sparkles },
     { label: 'Reports', to: '/admin/reports', icon: BarChart3 },
     { label: 'Students', to: '/admin/students', icon: GraduationCap },
     { label: 'Faculty', to: '/admin/faculty', icon: Users },
-    { label: 'Attendance', to: '/admin/attendance', icon: BookOpenCheck }
+    { label: 'Attendance', to: '/admin/attendance', icon: BookOpenCheck },
+    { label: 'QR Sessions', to: '/admin/qr-sessions', icon: QrCode }
   ],
   faculty: [
     { label: 'Overview', to: '/faculty/dashboard', icon: LayoutDashboard },
-    { label: 'Classes', to: '/faculty/dashboard', icon: GraduationCap },
+    { label: 'QR Attendance', to: '/faculty/qr', icon: QrCode },
     { label: 'Attendance', to: '/faculty/dashboard', icon: BookOpenCheck }
   ],
   student: [
     { label: 'Overview', to: '/student/dashboard', icon: LayoutDashboard },
+    { label: 'QR Attendance', to: '/student/qr', icon: QrCode },
     { label: 'Attendance', to: '/student/dashboard', icon: BookOpenCheck },
     { label: 'Profile', to: '/student/dashboard', icon: ShieldCheck }
   ]

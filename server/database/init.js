@@ -16,6 +16,8 @@ export function initializeDatabase() {
   ensureStudentColumns();
   ensureAttendanceTable();
   seedDefaultAdmin();
+  seedDefaultFaculty();
+  seedDefaultStudent();
 }
 
 function ensureFacultyDepartmentColumn() {
@@ -104,6 +106,71 @@ function seedDefaultAdmin() {
     email: 'admin@student.com',
     password: passwordHash,
     role: 'admin'
+  });
+}
+
+function seedDefaultFaculty() {
+  const existing = db
+    .prepare('SELECT id FROM users WHERE email = ?')
+    .get('faculty@student.com');
+
+  if (existing) {
+    return;
+  }
+
+  const passwordHash = bcrypt.hashSync('Faculty@123', 12);
+
+  const result = db.prepare(
+    `INSERT INTO users (fullName, email, password, role)
+     VALUES (@fullName, @email, @password, @role)`
+  ).run({
+    fullName: 'Demo Faculty',
+    email: 'faculty@student.com',
+    password: passwordHash,
+    role: 'faculty'
+  });
+
+  db.prepare(
+    `INSERT INTO faculty (userId, fullName, email, department)
+     VALUES (@userId, @fullName, @email, @department)`
+  ).run({
+    userId: result.lastInsertRowid,
+    fullName: 'Demo Faculty',
+    email: 'faculty@student.com',
+    department: 'Computer Science'
+  });
+}
+
+function seedDefaultStudent() {
+  const existing = db
+    .prepare('SELECT id FROM users WHERE email = ?')
+    .get('student@student.com');
+
+  if (existing) {
+    return;
+  }
+
+  const passwordHash = bcrypt.hashSync('Student@123', 12);
+
+  const result = db.prepare(
+    `INSERT INTO users (fullName, email, password, role)
+     VALUES (@fullName, @email, @password, @role)`
+  ).run({
+    fullName: 'Demo Student',
+    email: 'student@student.com',
+    password: passwordHash,
+    role: 'student'
+  });
+
+  db.prepare(
+    `INSERT INTO students (userId, fullName, email, department, status)
+     VALUES (@userId, @fullName, @email, @department, @status)`
+  ).run({
+    userId: result.lastInsertRowid,
+    fullName: 'Demo Student',
+    email: 'student@student.com',
+    department: 'Computer Science',
+    status: 'Active'
   });
 }
 

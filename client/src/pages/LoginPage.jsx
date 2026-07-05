@@ -67,7 +67,10 @@ function LoginPage() {
         password: form.password,
         role: form.role
       });
-      const fallbackPath = `/${user.role}/dashboard`;
+      const fallbackPath =
+  user.role === 'admin'
+    ? '/admin/analytics'
+    : `/${user.role}/dashboard`;
       const from = location.state?.from?.pathname || fallbackPath;
       navigate(from, { replace: true });
     } catch (error) {

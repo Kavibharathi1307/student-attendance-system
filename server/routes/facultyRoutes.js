@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   listFacultyHandler,
   getFacultyHandler,
+  facultyDashboardHandler,
   createFacultyHandler,
   updateFacultyHandler,
   deleteFacultyHandler
@@ -14,6 +15,7 @@ const router = Router();
 
 router.use(authenticate);
 
+router.get('/dashboard', asyncHandler(facultyDashboardHandler));
 router.get('/', asyncHandler(listFacultyHandler));
 router.get('/:id', asyncHandler(getFacultyHandler));
 

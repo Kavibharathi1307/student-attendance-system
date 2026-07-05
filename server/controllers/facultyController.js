@@ -1,6 +1,7 @@
 import {
   listFaculty,
   getFacultyDetails,
+  getFacultyDashboard,
   createFaculty as createFacultyService,
   updateFaculty as updateFacultyService,
   deleteFaculty as deleteFacultyService
@@ -37,6 +38,11 @@ export function updateFacultyHandler(request, response) {
   const updated = updateFacultyService(Number(id), { fullName, email, department });
 
   response.json({ message: 'Faculty updated', faculty: updated });
+}
+
+export function facultyDashboardHandler(request, response) {
+  const result = getFacultyDashboard(request.user.id);
+  response.json(result);
 }
 
 export function deleteFacultyHandler(request, response) {

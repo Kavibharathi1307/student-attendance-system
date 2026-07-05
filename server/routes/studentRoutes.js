@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   listStudentsHandler,
   getStudentHandler,
+  studentDashboardHandler,
   createStudentHandler,
   updateStudentHandler,
   deleteStudentHandler
@@ -14,6 +15,7 @@ const router = Router();
 
 router.use(authenticate);
 
+router.get('/dashboard', asyncHandler(studentDashboardHandler));
 router.get('/', asyncHandler(listStudentsHandler));
 router.get('/:id', asyncHandler(getStudentHandler));
 
