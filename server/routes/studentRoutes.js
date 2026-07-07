@@ -13,14 +13,12 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const router = Router();
 
-router.use(authenticate);
+router.get('/dashboard', authenticate, asyncHandler(studentDashboardHandler));
+router.get('/', authenticate, asyncHandler(listStudentsHandler));
+router.get('/:id', authenticate, asyncHandler(getStudentHandler));
 
-router.get('/dashboard', asyncHandler(studentDashboardHandler));
-router.get('/', asyncHandler(listStudentsHandler));
-router.get('/:id', asyncHandler(getStudentHandler));
-
-router.post('/', authorizeRoles('admin'), validateStudentCreate, asyncHandler(createStudentHandler));
-router.put('/:id', authorizeRoles('admin'), validateStudentUpdate, asyncHandler(updateStudentHandler));
-router.delete('/:id', authorizeRoles('admin'), asyncHandler(deleteStudentHandler));
+router.post('/', authenticate, authorizeRoles('admin'), validateStudentCreate, asyncHandler(createStudentHandler));
+router.put('/:id', authenticate, authorizeRoles('admin'), validateStudentUpdate, asyncHandler(updateStudentHandler));
+router.delete('/:id', authenticate, authorizeRoles('admin'), asyncHandler(deleteStudentHandler));
 
 export default router;

@@ -13,6 +13,13 @@ export function validateGenerateQr(request, _response, next) {
     return next(httpError(400, 'Valid attendance date is required (YYYY-MM-DD).'));
   }
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const attDate = new Date(attendanceDate + 'T00:00:00');
+  if (attDate < today) {
+    return next(httpError(400, 'Attendance date cannot be in the past.'));
+  }
+
   if (expiryMinutes !== undefined) {
     const num = Number(expiryMinutes);
 

@@ -100,7 +100,7 @@ export default function MarkAttendance() {
         </div>
 
         <div className="mt-6 flex justify-end">
-          <button type="submit" className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-teal-600/20 transition hover:bg-teal-700">
+          <button type="submit" className="btn btn-primary">
             <Save size={16} />
             Save attendance
           </button>

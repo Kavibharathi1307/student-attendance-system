@@ -26,17 +26,15 @@ function StudentDetailsPage() {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="rounded-[24px] border border-slate-200 bg-white/80 p-10 text-center text-sm text-slate-500 shadow-sm">
-        Loading student profile...
-      </div>
-    );
+    return <div className="loading-spinner" />;
   }
 
   if (!student) {
     return (
-      <div className="rounded-[24px] border border-slate-200 bg-white/80 p-10 text-center text-sm text-slate-500 shadow-sm">
-        The requested student could not be found.
+      <div className="empty-state">
+        <div className="empty-state-icon"><UserRound size={20} /></div>
+        <p className="empty-state-title">Student not found</p>
+        <p className="empty-state-text">The requested student could not be found.</p>
       </div>
     );
   }
@@ -52,7 +50,7 @@ function StudentDetailsPage() {
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">Student details</h2>
           <p className="mt-1 text-sm text-slate-500">A full view of the selected student profile.</p>
         </div>
-        <Link to={`/admin/students/${id}/edit`} className="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:bg-indigo-700">
+        <Link to={`/admin/students/${id}/edit`} className="btn-primary rounded-full px-4 py-2.5">
           <PencilLine size={16} />
           Edit student
         </Link>

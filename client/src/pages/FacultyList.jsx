@@ -41,30 +41,30 @@ export default function FacultyList() {
   const departments = Array.from(new Set(data.map((d) => d.department).filter(Boolean)));
 
   return (
-    <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+    <div className="fade-in">
+      <div className="page-header flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-700">Faculty</p>
-          <h2 className="text-2xl font-semibold text-slate-900">Faculty Directory</h2>
+          <p className="page-header-subtitle">Faculty</p>
+          <h2 className="page-header-title">Faculty Directory</h2>
         </div>
-        <Link to="/admin/faculty/add" className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-teal-600 to-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-teal-600/20">
+        <Link to="/admin/faculty/add" className="btn btn-primary">
           <Plus size={16} /> Add Faculty
         </Link>
       </div>
 
-      <div className="mb-5 rounded-[24px] border border-slate-200 bg-white/80 p-4 shadow-sm">
+      <div className="section-card mb-5 p-4">
         <div className="flex flex-wrap gap-3">
-          <label className="flex min-w-[240px] flex-1 items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5">
-            <Search size={16} className="text-slate-400" />
+          <label className="input-group flex-1 min-w-[240px]">
+            <Search size={16} className="text-slate-400 shrink-0" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search faculty"
-              className="w-full border-0 bg-transparent text-sm outline-none"
+              className="input-field"
             />
           </label>
 
-          <select value={department} onChange={(e) => setDepartment(e.target.value)} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none">
+          <select value={department} onChange={(e) => setDepartment(e.target.value)} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-teal-500">
             <option value="">All Departments</option>
             {departments.map((d) => (
               <option key={d} value={d}>
@@ -75,43 +75,43 @@ export default function FacultyList() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white/80 shadow-sm">
-        <table className="w-full table-auto">
+      <div className="table-wrap">
+        <table className="table-base">
           <thead className="bg-slate-50 text-left text-sm text-slate-600">
             <tr>
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Department</th>
-              <th className="px-4 py-3">Actions</th>
+              <th className="px-4 py-3 font-semibold">Name</th>
+              <th className="px-4 py-3 font-semibold">Email</th>
+              <th className="px-4 py-3 font-semibold">Department</th>
+              <th className="px-4 py-3 font-semibold">Actions</th>
             </tr>
           </thead>
           <tbody className="text-sm text-slate-700">
             {data.length === 0 ? (
               <tr>
-                <td colSpan="4" className="px-4 py-10 text-center text-sm text-slate-500">
+                <td colSpan="4" className="px-4 py-16 text-center text-sm text-slate-400">
                   No faculty members found for the current filters.
                 </td>
               </tr>
             ) : (
               data.map((f) => (
-                <tr key={f.id} className="border-t bg-white/60 transition hover:bg-slate-50">
-                  <td className="px-4 py-3">
+                <tr key={f.id} className="border-t border-slate-100 bg-white transition-all duration-200 hover:bg-slate-50/80">
+                  <td className="px-4 py-3.5">
                     <div className="flex items-center gap-3">
                       <div className="rounded-full bg-teal-100 p-2 text-teal-700"><Users size={16} /></div>
                       <span className="font-medium text-slate-900">{f.fullName}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-3">{f.email}</td>
-                  <td className="px-4 py-3"><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">{f.department || '-'}</span></td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <Link className="rounded-full border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-100" to={`/admin/faculty/${f.id}`} title="View">
+                  <td className="px-4 py-3.5 text-slate-600">{f.email}</td>
+                  <td className="px-4 py-3.5"><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">{f.department || '-'}</span></td>
+                  <td className="px-4 py-3.5">
+                    <div className="flex items-center gap-1.5">
+                      <Link className="btn-icon" to={`/admin/faculty/${f.id}`} title="View">
                         <Eye size={15} />
                       </Link>
-                      <Link className="rounded-full border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-100" to={`/admin/faculty/${f.id}/edit`} title="Edit">
+                      <Link className="btn-icon" to={`/admin/faculty/${f.id}/edit`} title="Edit">
                         <PencilLine size={15} />
                       </Link>
-                      <button className="rounded-full border border-rose-200 p-2 text-rose-600 transition hover:bg-rose-50" onClick={() => handleDelete(f.id)} title="Delete">
+                      <button className="btn-icon-rose" onClick={() => handleDelete(f.id)} title="Delete">
                         <Trash2 size={15} />
                       </button>
                     </div>
@@ -123,13 +123,13 @@ export default function FacultyList() {
         </table>
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-2 rounded-[20px] border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
+      <div className="mt-4 flex items-center justify-between gap-2 rounded-[20px] border border-slate-200 bg-white px-4 py-3 shadow-sm">
         <span className="text-sm text-slate-600">Page {page} / {totalPages}</span>
         <div className="flex items-center gap-2">
-          <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700 disabled:opacity-50">
+          <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="btn-ghost rounded-full px-3 py-1.5 text-sm">
             Prev
           </button>
-          <button disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))} className="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700 disabled:opacity-50">
+          <button disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))} className="btn-ghost rounded-full px-3 py-1.5 text-sm">
             Next
           </button>
         </div>

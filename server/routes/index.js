@@ -8,6 +8,7 @@ import analyticsRoutes from './analyticsRoutes.js';
 import reportRoutes from './reportRoutes.js';
 import qrAttendanceRoutes from './qrAttendanceRoutes.js';
 import adminDashboardRoutes from './adminDashboardRoutes.js';
+import profileRoutes from './profileRoutes.js';
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use('/analytics', analyticsRoutes);
 router.use('/reports', reportRoutes);
 router.use('/qr', qrAttendanceRoutes);
 router.use('/admin', adminDashboardRoutes);
+router.use('/profile', profileRoutes);
 
 export default router;

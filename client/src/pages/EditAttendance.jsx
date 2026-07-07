@@ -27,11 +27,7 @@ export default function EditAttendance() {
   }
 
   if (!record) {
-    return (
-      <div className="rounded-3xl border border-slate-200 bg-white/80 p-8 text-center text-sm text-slate-500 shadow-sm">
-        Loading attendance form…
-      </div>
-    );
+    return <div className="loading-spinner" />;
   }
 
   return (
@@ -104,8 +100,8 @@ export default function EditAttendance() {
         </div>
 
         <div className="mt-6 flex justify-end">
-          <button type="submit" className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-teal-700">
-            <Save className="h-4 w-4" />
+          <button type="submit" className="btn btn-primary">
+            <Save size={16} />
             Save changes
           </button>
         </div>

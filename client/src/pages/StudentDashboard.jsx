@@ -10,8 +10,8 @@ function StudentDashboard() {
     api.get('/students/dashboard').then((r) => setData(r.data)).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="rounded-[24px] border border-slate-200 bg-white/80 p-8 text-center text-slate-600 shadow-sm">Loading dashboard...</div>;
-  if (!data) return <div className="rounded-[24px] border border-slate-200 bg-white/80 p-8 text-center text-slate-600 shadow-sm">Could not load dashboard data.</div>;
+  if (loading) return <div className="loading-spinner" />;
+  if (!data) return <div className="error-state"><p className="error-state-text">Could not load dashboard data.</p></div>;
 
   const { student, attendance, recentAttendance, activeQrSessions } = data;
 
@@ -74,7 +74,7 @@ function StudentDashboard() {
                     <p className="font-medium text-slate-900">{item.subject}</p>
                     <p className="text-sm text-slate-500">{item.attendanceDate} • {item.facultyName}</p>
                   </div>
-                  <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${item.status === 'Present' ? 'bg-emerald-100 text-emerald-700' : item.status === 'Late' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
+                  <span className={`badge ${item.status === 'Present' ? 'badge-present' : item.status === 'Late' ? 'badge-late' : 'badge-absent'}`}>
                     {item.status}
                   </span>
                 </div>

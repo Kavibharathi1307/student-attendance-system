@@ -85,15 +85,15 @@ export default function StudentAttendanceHistory() {
         </div>
       </div>
 
-      <div className="mb-5 rounded-[24px] border border-slate-200 bg-white/80 p-4 shadow-sm">
+      <div className="section-card mb-5 p-4">
         <div className="flex flex-wrap gap-3">
-          <label className="flex min-w-[180px] flex-1 items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5">
-            <Search size={16} className="text-slate-400" />
-            <input value={subject} onChange={(e) => { setSubject(e.target.value); setPage(1); }} placeholder="Search subject" className="w-full border-0 bg-transparent text-sm outline-none" />
+          <label className="input-group flex-1 min-w-[160px]">
+            <Search size={16} className="text-slate-400 shrink-0" />
+            <input value={subject} onChange={(e) => { setSubject(e.target.value); setPage(1); }} placeholder="Search subject" className="input-field" />
           </label>
-          <input type="date" value={dateFrom} onChange={(e) => { setDateFrom(e.target.value); setPage(1); }} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none" />
-          <input type="date" value={dateTo} onChange={(e) => { setDateTo(e.target.value); setPage(1); }} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none" />
-          <select value={status} onChange={(e) => { setStatus(e.target.value); setPage(1); }} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none">
+          <input type="date" value={dateFrom} onChange={(e) => { setDateFrom(e.target.value); setPage(1); }} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-teal-500" />
+          <input type="date" value={dateTo} onChange={(e) => { setDateTo(e.target.value); setPage(1); }} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-teal-500" />
+          <select value={status} onChange={(e) => { setStatus(e.target.value); setPage(1); }} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-teal-500">
             <option value="">Any Status</option>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
@@ -102,35 +102,32 @@ export default function StudentAttendanceHistory() {
         </div>
       </div>
 
-      {error && <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
+      {error && <div className="error-state mb-4 flex-row justify-start px-4 py-3"><p className="error-state-text">{error}</p></div>}
 
       {loading ? (
-        <div className="rounded-[24px] border border-slate-200 bg-white/80 p-8 text-center text-slate-600 shadow-sm">
-          <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-4 border-teal-200 border-t-teal-600" />
-          <div>Loading attendance history…</div>
-        </div>
+        <div className="loading-spinner">Loading attendance history...</div>
       ) : data.length === 0 ? (
-        <div className="rounded-[24px] border border-dashed border-slate-300 bg-white/80 p-8 text-center text-slate-600 shadow-sm">No attendance records found. Try different filters.</div>
+        <div className="empty-state"><p className="empty-state-title">No records found</p><p className="empty-state-text">No attendance records match the current filters.</p></div>
       ) : (
-        <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white/80 shadow-sm">
-          <table className="w-full table-auto">
+        <div className="table-wrap">
+          <table className="table-base">
             <thead className="bg-slate-50 text-left text-sm text-slate-600">
               <tr>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Subject</th>
-                <th className="px-4 py-3">Faculty</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3 font-semibold">Date</th>
+                <th className="px-4 py-3 font-semibold">Subject</th>
+                <th className="px-4 py-3 font-semibold">Faculty</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
               </tr>
             </thead>
             <tbody className="text-sm text-slate-700">
               {data.map((a) => {
-                const badgeClass = a.status === 'Present' ? 'bg-emerald-100 text-emerald-700' : a.status === 'Late' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+                const badgeClass = a.status === 'Present' ? 'badge badge-present' : a.status === 'Late' ? 'badge badge-late' : 'badge badge-absent';
                 return (
-                  <tr key={a.id} className="border-t bg-white/60 transition hover:bg-slate-50">
-                    <td className="px-4 py-3">{a.attendanceDate}</td>
-                    <td className="px-4 py-3 font-medium text-slate-900">{a.subject}</td>
-                    <td className="px-4 py-3">{a.facultyName}</td>
-                    <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${badgeClass}`}>{a.status}</span></td>
+                  <tr key={a.id} className="border-t border-slate-100 bg-white transition-all duration-200 hover:bg-slate-50/80">
+                    <td className="px-4 py-3.5 text-slate-600">{a.attendanceDate}</td>
+                    <td className="px-4 py-3.5 font-medium text-slate-900">{a.subject}</td>
+                    <td className="px-4 py-3.5 text-slate-600">{a.facultyName}</td>
+                    <td className="px-4 py-3.5"><span className={badgeClass}>{a.status}</span></td>
                   </tr>
                 );
               })}
@@ -139,11 +136,11 @@ export default function StudentAttendanceHistory() {
         </div>
       )}
 
-      <div className="mt-4 flex items-center justify-between gap-2 rounded-[20px] border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
+      <div className="mt-4 flex items-center justify-between gap-2 rounded-[20px] border border-slate-200 bg-white px-4 py-3 shadow-sm">
         <span className="text-sm text-slate-600">Page {page} / {totalPages}</span>
         <div className="flex items-center gap-2">
-          <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700 disabled:opacity-50">Prev</button>
-          <button disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))} className="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700 disabled:opacity-50">Next</button>
+          <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="btn-ghost rounded-full px-3 py-1.5 text-sm">Prev</button>
+          <button disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))} className="btn-ghost rounded-full px-3 py-1.5 text-sm">Next</button>
         </div>
       </div>
     </div>

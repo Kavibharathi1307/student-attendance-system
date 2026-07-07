@@ -7,8 +7,8 @@ function ProtectedRoute({ allowedRoles }) {
 
   if (isInitializing) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 text-slate-700">
-        Loading...
+      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+        <div className="loading-spinner" />
       </div>
     );
   }

@@ -69,13 +69,22 @@ export function updateAttendance(id, payload) {
 
   if (!rec) throw httpError(404, 'Attendance record not found.');
 
-  const dup = findDuplicateAttendance({ studentId: payload.studentId, subject: payload.subject, attendanceDate: payload.attendanceDate });
+  const merged = {
+    studentId: payload.studentId ?? rec.studentId,
+    facultyId: payload.facultyId ?? rec.facultyId,
+    subject: payload.subject ?? rec.subject,
+    attendanceDate: payload.attendanceDate ?? rec.attendanceDate,
+    status: payload.status ?? rec.status,
+    remarks: payload.remarks !== undefined ? payload.remarks : rec.remarks
+  };
+
+  const dup = findDuplicateAttendance({ studentId: merged.studentId, subject: merged.subject, attendanceDate: merged.attendanceDate });
 
   if (dup && dup.id !== id) {
     throw httpError(409, 'Attendance for this student, subject, and date already exists.');
   }
 
-  updateAttendanceRecord(id, payload);
+  updateAttendanceRecord(id, merged);
 
   return getAttendanceById(id);
 }

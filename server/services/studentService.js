@@ -40,6 +40,13 @@ export function createStudent({ fullName, email, studentId, department, phone, a
     throw httpError(409, 'A user with this email already exists.');
   }
 
+  if (studentId) {
+    const existingStudent = db.prepare('SELECT id FROM students WHERE studentId = ?').get(studentId);
+    if (existingStudent) {
+      throw httpError(409, 'A student with this register number already exists.');
+    }
+  }
+
   const tempPassword = Math.random().toString(36).slice(2, 10) + 'A1!';
 
   const user = createUser({
@@ -75,7 +82,8 @@ export function updateStudent(id, { fullName, email, studentId, department, phon
     throw httpError(404, 'Student not found.');
   }
 
-  const normalizedEmail = email.trim().toLowerCase();
+  const resolvedFullName = fullName !== undefined && fullName !== null ? fullName.trim() : student.fullName;
+  const normalizedEmail = email !== undefined && email !== null ? email.trim().toLowerCase() : student.email;
 
   const existing = findUserByEmail(normalizedEmail);
 
@@ -83,16 +91,16 @@ export function updateStudent(id, { fullName, email, studentId, department, phon
     throw httpError(409, 'A user with this email already exists.');
   }
 
-  updateUser(student.userId, { fullName: fullName.trim(), email: normalizedEmail });
+  updateUser(student.userId, { fullName: resolvedFullName, email: normalizedEmail });
 
   updateStudentRecord(id, {
-    fullName: fullName.trim(),
+    fullName: resolvedFullName,
     email: normalizedEmail,
-    studentId: studentId || null,
-    department: department || null,
-    phone: phone || null,
-    address: address || null,
-    status: status || 'Active'
+    studentId: studentId || student.studentId || null,
+    department: department || student.department || null,
+    phone: phone || student.phone || null,
+    address: address || student.address || null,
+    status: status || student.status || 'Active'
   });
 
   return getStudentById(id);

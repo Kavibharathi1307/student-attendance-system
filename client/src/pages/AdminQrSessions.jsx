@@ -33,18 +33,19 @@ export default function AdminQrSessions() {
   const totalPages = Math.max(1, Math.ceil(total / perPage));
 
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-700">QR Sessions</p>
-        <h2 className="mt-1 text-2xl font-semibold text-slate-900">All QR Sessions</h2>
+    <div className="fade-in space-y-6">
+      <div className="page-header">
+        <p className="page-header-subtitle">QR Sessions</p>
+        <h2 className="page-header-title">All QR Sessions</h2>
         <p className="mt-1 text-sm text-slate-500">Monitor all generated QR codes and their status.</p>
       </div>
 
       <div className="rounded-[28px] border border-slate-200 bg-white shadow-sm">
         {sessions.length === 0 ? (
-          <div className="flex flex-col items-center py-16">
-            <QrCode size={48} className="text-slate-300" />
-            <p className="mt-4 text-sm text-slate-400">No QR sessions found.</p>
+          <div className="empty-state py-16">
+            <div className="empty-state-icon"><QrCode size={24} /></div>
+            <p className="empty-state-title">No QR sessions found</p>
+            <p className="empty-state-text">QR sessions will appear here once generated.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -63,7 +64,7 @@ export default function AdminQrSessions() {
                 {sessions.map((s) => {
                   const active = isActive(s);
                   return (
-                    <tr key={s.id} className="border-b border-slate-50 transition hover:bg-slate-50/50">
+                    <tr key={s.id} className="border-b border-slate-50 transition-all duration-200 hover:bg-slate-50/80">
                       <td className="px-5 py-4">
                         <code className="rounded-md bg-slate-100 px-2 py-1 text-xs font-mono text-slate-700">
                           {s.token.slice(0, 12)}...
@@ -72,24 +73,16 @@ export default function AdminQrSessions() {
                       <td className="px-5 py-4 font-medium text-slate-800">{s.facultyName || '-'}</td>
                       <td className="px-5 py-4 text-slate-600">{s.subject}</td>
                       <td className="px-5 py-4 text-slate-600">{s.attendanceDate}</td>
-                      <td className="px-5 py-4 text-slate-600">
+                      <td className="px-5 py-4 text-slate-500">
                         <div className="flex items-center gap-1.5">
                           <Clock size={12} className="text-slate-400" />
                           {new Date(s.expiresAt).toLocaleString()}
                         </div>
                       </td>
                       <td className="px-5 py-4">
-                        {active ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
-                            <CheckCircle2 size={12} />
-                            Active
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">
-                            <XCircle size={12} />
-                            Expired
-                          </span>
-                        )}
+                        <span className={`badge ${active ? 'badge-present' : 'badge-absent'}`}>
+                          {active ? <><CheckCircle2 size={12} /> Active</> : <><XCircle size={12} /> Expired</>}
+                        </span>
                       </td>
                     </tr>
                   );
@@ -108,14 +101,14 @@ export default function AdminQrSessions() {
               <button
                 disabled={page <= 1}
                 onClick={() => setPage((p) => p - 1)}
-                className="rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-medium transition hover:bg-slate-100 disabled:opacity-40"
+                className="btn-ghost rounded-xl px-3 py-1.5 text-xs"
               >
                 Previous
               </button>
               <button
                 disabled={page >= totalPages}
                 onClick={() => setPage((p) => p + 1)}
-                className="rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-medium transition hover:bg-slate-100 disabled:opacity-40"
+                className="btn-ghost rounded-xl px-3 py-1.5 text-xs"
               >
                 Next
               </button>

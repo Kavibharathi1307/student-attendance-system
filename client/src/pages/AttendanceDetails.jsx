@@ -12,19 +12,8 @@ export default function AttendanceDetails() {
   }, [id]);
 
   if (!rec) {
-    return (
-      <div className="rounded-3xl border border-slate-200 bg-white/80 p-8 text-center text-sm text-slate-500 shadow-sm">
-        Loading attendance record…
-      </div>
-    );
+    return <div className="loading-spinner" />;
   }
-
-  const statusColor =
-    rec.status === 'Present'
-      ? 'bg-emerald-100 text-emerald-700'
-      : rec.status === 'Late'
-        ? 'bg-amber-100 text-amber-700'
-        : 'bg-rose-100 text-rose-700';
 
   return (
     <div className="space-y-6">
@@ -54,7 +43,7 @@ export default function AttendanceDetails() {
                 <h3 className="text-xl font-semibold text-slate-900">{rec.studentName}</h3>
               </div>
             </div>
-            <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${statusColor}`}>
+            <span className={`badge text-sm ${rec.status === 'Present' ? 'badge-present' : rec.status === 'Late' ? 'badge-late' : 'badge-absent'}`}>
               {rec.status}
             </span>
           </div>

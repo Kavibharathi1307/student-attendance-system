@@ -131,17 +131,17 @@ export default function ReportsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="page-header flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-700">Reports</p>
-          <h2 className="text-2xl font-semibold text-slate-900">Attendance Report Center</h2>
+          <p className="page-header-subtitle">Reports</p>
+          <h2 className="page-header-title">Attendance Report Center</h2>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white/80 px-4 py-2 text-sm text-slate-600 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm">
           {total} records available
         </div>
       </div>
 
-      <div className="rounded-[24px] border border-slate-200 bg-white/80 p-4 shadow-sm">
+      <div className="section-card p-4">
         <div className="mb-4 flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
           <Filter size={16} />
           <span>Refine by schedule, department, faculty, student, or status</span>
@@ -150,12 +150,12 @@ export default function ReportsPage() {
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="space-y-4">
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">Date From</label>
-              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-teal-500 focus:bg-white" />
+              <label className="form-label">Date From</label>
+              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-500 focus:bg-white" />
             </div>
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">Department</label>
-              <select value={department} onChange={(e) => setDepartment(e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-teal-500 focus:bg-white">
+              <label className="form-label">Department</label>
+              <select value={department} onChange={(e) => setDepartment(e.target.value)} className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-500 focus:bg-white">
                 <option value="">All Departments</option>
                 {departments.map((dept) => (
                   <option key={dept} value={dept}>{dept}</option>
@@ -163,15 +163,15 @@ export default function ReportsPage() {
               </select>
             </div>
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">Student</label>
-              <div className="flex items-center rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 focus-within:border-teal-500 focus-within:bg-white">
-                <Search size={16} className="mr-2 text-slate-400" />
-                <input value={student} onChange={(e) => setStudent(e.target.value)} placeholder="Name or ID" className="w-full border-0 bg-transparent text-sm outline-none" />
+              <label className="form-label">Student</label>
+              <div className="input-group mt-2">
+                <Search size={16} className="text-slate-400 shrink-0" />
+                <input value={student} onChange={(e) => setStudent(e.target.value)} placeholder="Name or ID" className="input-field" />
               </div>
             </div>
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">Attendance Status</label>
-              <select value={status} onChange={(e) => setStatus(e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-teal-500 focus:bg-white">
+              <label className="form-label">Attendance Status</label>
+              <select value={status} onChange={(e) => setStatus(e.target.value)} className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-500 focus:bg-white">
                 {statusOptions.map((option) => (
                   <option key={option} value={option}>{option || 'Any Status'}</option>
                 ))}
@@ -181,12 +181,12 @@ export default function ReportsPage() {
 
           <div className="space-y-4">
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">Date To</label>
-              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-teal-500 focus:bg-white" />
+              <label className="form-label">Date To</label>
+              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-500 focus:bg-white" />
             </div>
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">Faculty</label>
-              <select value={facultyId} onChange={(e) => setFacultyId(e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-teal-500 focus:bg-white">
+              <label className="form-label">Faculty</label>
+              <select value={facultyId} onChange={(e) => setFacultyId(e.target.value)} className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-500 focus:bg-white">
                 <option value="">Any Faculty</option>
                 {faculties.map((faculty) => (
                   <option key={faculty.id} value={faculty.id}>{faculty.fullName}</option>
@@ -194,70 +194,70 @@ export default function ReportsPage() {
               </select>
             </div>
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">Subject</label>
-              <div className="flex items-center rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 focus-within:border-teal-500 focus-within:bg-white">
-                <Search size={16} className="mr-2 text-slate-400" />
-                <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Search subject" className="w-full border-0 bg-transparent text-sm outline-none" />
+              <label className="form-label">Subject</label>
+              <div className="input-group mt-2">
+                <Search size={16} className="text-slate-400 shrink-0" />
+                <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Search subject" className="input-field" />
               </div>
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
-              <button type="button" onClick={() => void loadReport(filters)} className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-teal-600 to-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-teal-600/20">Apply Filters</button>
-              <button type="button" onClick={() => void resetFilters()} className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700">Reset</button>
+              <button type="button" onClick={() => void loadReport(filters)} className="btn btn-primary">Apply Filters</button>
+              <button type="button" onClick={() => void resetFilters()} className="btn-ghost rounded-2xl px-4 py-2.5">Reset</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-slate-200 bg-white px-4 py-3 shadow-sm">
         <div className="flex items-center gap-2 text-sm text-slate-600">
           <Sparkles size={16} className="text-teal-600" />
           Export your filtered attendance data instantly
         </div>
         <div className="flex flex-wrap gap-2">
-          <button disabled={loading} onClick={() => void handleExportPdf()} className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70">
+          <button disabled={loading} onClick={() => void handleExportPdf()} className="btn gap-2 rounded-2xl bg-slate-950 text-white hover:bg-slate-800">
             <FileText size={16} /> PDF
           </button>
-          <button disabled={loading} onClick={() => void handleExportExcel()} className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70">
+          <button disabled={loading} onClick={() => void handleExportExcel()} className="btn-ghost gap-2 rounded-2xl px-4 py-2">
             <Sheet size={16} /> Excel
           </button>
         </div>
       </div>
 
-      {error && <div className="my-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
+      {error && <div className="error-state my-4 flex-row justify-start px-4 py-3"><p className="error-state-text">{error}</p></div>}
 
       {loading ? (
-        <div className="mt-6 rounded-[24px] border border-slate-200 bg-white/80 p-8 text-center text-slate-600 shadow-sm">
-          <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-4 border-teal-200 border-t-teal-600" />
-          <div>Loading report…</div>
-        </div>
+        <div className="loading-spinner mt-6">Loading report...</div>
       ) : data.length === 0 ? (
-        <div className="mt-6 rounded-[24px] border border-dashed border-slate-300 bg-white/80 p-8 text-center text-slate-600 shadow-sm">No attendance records found. Try different filters.</div>
+        <div className="empty-state mt-6"><p className="empty-state-title">No records found</p><p className="empty-state-text">No attendance records match the current filters.</p></div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-[24px] border border-slate-200 bg-white/80 shadow-sm">
-          <table className="min-w-full text-left text-sm text-slate-700">
+        <div className="mt-6 table-wrap">
+          <table className="table-base">
             <thead className="border-b bg-slate-50 text-slate-600">
               <tr>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Student</th>
-                <th className="px-4 py-3">Department</th>
-                <th className="px-4 py-3">Faculty</th>
-                <th className="px-4 py-3">Subject</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Remarks</th>
+                <th className="px-4 py-3 font-semibold">Date</th>
+                <th className="px-4 py-3 font-semibold">Student</th>
+                <th className="px-4 py-3 font-semibold">Department</th>
+                <th className="px-4 py-3 font-semibold">Faculty</th>
+                <th className="px-4 py-3 font-semibold">Subject</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
+                <th className="px-4 py-3 font-semibold">Remarks</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((row) => (
-                <tr key={row.id} className="border-t bg-white/60 hover:bg-slate-50">
-                  <td className="px-4 py-3">{row.attendanceDate}</td>
-                  <td className="px-4 py-3">{row.studentName} ({row.studentId})</td>
-                  <td className="px-4 py-3">{row.facultyDepartment || 'N/A'}</td>
-                  <td className="px-4 py-3">{row.facultyName}</td>
-                  <td className="px-4 py-3">{row.subject}</td>
-                  <td className="px-4 py-3"><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">{row.status}</span></td>
-                  <td className="px-4 py-3">{row.remarks || '-'}</td>
-                </tr>
-              ))}
+              {data.map((row) => {
+                const badgeClass = row.status === 'Present' ? 'badge badge-present' : row.status === 'Late' ? 'badge badge-late' : row.status === 'Absent' ? 'badge badge-absent' : 'badge';
+                return (
+                  <tr key={row.id} className="border-t border-slate-100 bg-white transition-all duration-200 hover:bg-slate-50/80">
+                    <td className="px-4 py-3.5 text-slate-600">{row.attendanceDate}</td>
+                    <td className="px-4 py-3.5 font-medium text-slate-900">{row.studentName} <span className="text-slate-400">({row.studentId})</span></td>
+                    <td className="px-4 py-3.5 text-slate-600">{row.facultyDepartment || 'N/A'}</td>
+                    <td className="px-4 py-3.5 text-slate-600">{row.facultyName}</td>
+                    <td className="px-4 py-3.5 text-slate-600">{row.subject}</td>
+                    <td className="px-4 py-3.5"><span className={badgeClass}>{row.status}</span></td>
+                    <td className="px-4 py-3.5 text-slate-400">{row.remarks || '-'}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

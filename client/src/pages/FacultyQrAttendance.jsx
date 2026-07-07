@@ -116,7 +116,7 @@ export default function FacultyQrAttendance() {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-teal-600/20 transition hover:bg-teal-700 disabled:opacity-50"
+              className="btn btn-primary"
             >
               {loading ? (
                 <RefreshCw size={16} className="animate-spin" />

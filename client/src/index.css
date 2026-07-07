@@ -42,5 +42,153 @@ a,
 input,
 select,
 textarea {
-  transition: all 180ms ease;
+  transition: all 200ms ease;
+}
+
+@layer components {
+  /* ── Loading spinner ── */
+  .loading-spinner {
+    @apply flex items-center justify-center gap-3 py-16 text-slate-400;
+  }
+  .loading-spinner::before {
+    content: '';
+    @apply h-5 w-5 animate-spin rounded-full border-2 border-slate-200 border-t-teal-600;
+  }
+
+  /* ── Skeleton pulse ── */
+  .skeleton {
+    @apply animate-pulse rounded-xl bg-slate-200;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .badge-present,
+  .badge-active {
+    @apply bg-emerald-100 text-emerald-700;
+  }
+  .badge-absent,
+  .badge-inactive {
+    @apply bg-rose-100 text-rose-700;
+  }
+  .badge-late {
+    @apply bg-amber-100 text-amber-700;
+  }
+  .badge-expired {
+    @apply bg-slate-100 text-slate-600;
+  }
+
+  /* ── Card hover lift ── */
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    @apply mb-6;
+  }
+  .page-header-subtitle {
+    @apply text-sm font-semibold uppercase tracking-[0.25em] text-teal-700;
+  }
+  .page-header-title {
+    @apply mt-1 text-2xl font-semibold text-slate-900;
+  }
+
+  /* ── Table ── */
+  .table-wrap {
+    @apply overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm;
+  }
+  .table-base {
+    @apply min-w-full table-auto divide-y divide-slate-100;
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    @apply flex flex-col items-center justify-center rounded-[24px] border-2 border-dashed border-slate-200 bg-slate-50/50 px-6 py-12 text-center;
+  }
+  .empty-state-icon {
+    @apply mb-3 rounded-2xl bg-slate-100 p-3 text-slate-400;
+  }
+  .empty-state-title {
+    @apply text-sm font-semibold text-slate-600;
+  }
+  .empty-state-text {
+    @apply mt-1 text-sm text-slate-400;
+  }
+
+  /* ── Error state ── */
+  .error-state {
+    @apply flex flex-col items-center justify-center rounded-[24px] border border-rose-200 bg-rose-50 px-6 py-10 text-center;
+  }
+  .error-state-icon {
+    @apply mb-3 rounded-2xl bg-rose-100 p-3 text-rose-500;
+  }
+  .error-state-text {
+    @apply text-sm font-medium text-rose-700;
+  }
+
+  /* ── Form elements ── */
+  .input-group {
+    @apply flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus-within:border-teal-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-teal-100;
+  }
+  .input-field {
+    @apply w-full border-0 bg-transparent text-sm outline-none placeholder:text-slate-400;
+  }
+  .form-label {
+    @apply text-sm font-semibold text-slate-700;
+  }
+
+  /* ── Stat card ── */
+  .stat-card {
+    @apply rounded-[22px] border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  /* ── Section card ── */
+  .section-card {
+    @apply rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60 select-none;
+  }
+  .btn-primary {
+    @apply bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg shadow-teal-600/20 hover:shadow-xl hover:shadow-teal-600/30 active:scale-[0.97];
+  }
+  .btn-ghost {
+    @apply border border-slate-200 text-slate-700 hover:bg-slate-50 hover:shadow-sm active:scale-[0.97];
+  }
+  .btn-rose {
+    @apply bg-rose-600 text-white hover:bg-rose-700 active:scale-[0.97];
+  }
+  .btn-icon {
+    @apply rounded-full border border-slate-200 p-2 text-slate-600 transition-all duration-200 hover:bg-slate-100 hover:shadow-sm active:scale-90;
+  }
+  .btn-icon-rose {
+    @apply rounded-full border border-rose-200 p-2 text-rose-600 transition-all duration-200 hover:bg-rose-50 hover:shadow-sm active:scale-90;
+  }
+
+  /* ── Stat badge ── */
+  .stat-badge {
+    @apply mt-2 inline-block rounded-full px-3 py-1 text-sm font-semibold;
+  }
+
+  /* ── Transition helpers ── */
+  .fade-in {
+    animation: fadeIn 0.3s ease forwards;
+  }
+  .slide-up {
+    animation: slideUp 0.3s ease forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }

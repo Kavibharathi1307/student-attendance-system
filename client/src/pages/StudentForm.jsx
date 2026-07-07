@@ -74,26 +74,22 @@ function StudentForm() {
   }
 
   if (loading) {
-    return (
-      <div className="rounded-[24px] border border-slate-200 bg-white/80 p-10 text-center text-sm text-slate-500 shadow-sm">
-        Loading student details...
-      </div>
-    );
+    return <div className="loading-spinner" />;
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Link to="/admin/students" className="rounded-full border border-slate-200 bg-white p-2 text-slate-700 shadow-sm transition hover:bg-slate-50">
+    <div className="fade-in space-y-6">
+      <div className="page-header flex items-center gap-3">
+        <Link to="/admin/students" className="btn-icon">
           <ArrowLeft size={16} />
         </Link>
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-700">Students</p>
-          <h2 className="mt-1 text-2xl font-semibold text-slate-900">{isEdit ? 'Edit Student' : 'Add Student'}</h2>
+          <p className="page-header-subtitle">Students</p>
+          <h2 className="page-header-title">{isEdit ? 'Edit Student' : 'Add Student'}</h2>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="max-w-3xl rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+      <form onSubmit={handleSubmit} className="max-w-3xl section-card">
         <div className="mb-6 rounded-2xl bg-teal-50/70 p-4">
           <p className="text-sm font-medium text-teal-700">Student profile</p>
           <p className="mt-1 text-sm text-slate-600">Capture the details needed to keep the student directory accurate and up to date.</p>
@@ -107,9 +103,9 @@ function StudentForm() {
 
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">Full name</label>
+            <label className="form-label">Full name</label>
             <input
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
               onChange={(event) => setForm({ ...form, fullName: event.target.value })}
               value={form.fullName}
             />
@@ -117,9 +113,9 @@ function StudentForm() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">Email</label>
+            <label className="form-label">Email</label>
             <input
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
               onChange={(event) => setForm({ ...form, email: event.target.value })}
               type="email"
               value={form.email}
@@ -128,18 +124,18 @@ function StudentForm() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">Student ID</label>
+            <label className="form-label">Student ID</label>
             <input
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
               onChange={(event) => setForm({ ...form, studentId: event.target.value })}
               value={form.studentId}
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">Department</label>
+            <label className="form-label">Department</label>
             <input
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
               onChange={(event) => setForm({ ...form, department: event.target.value })}
               value={form.department}
             />
@@ -147,9 +143,9 @@ function StudentForm() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">Status</label>
+            <label className="form-label">Status</label>
             <select
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
               onChange={(event) => setForm({ ...form, status: event.target.value })}
               value={form.status}
             >
@@ -161,18 +157,18 @@ function StudentForm() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">Phone</label>
+            <label className="form-label">Phone</label>
             <input
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
               onChange={(event) => setForm({ ...form, phone: event.target.value })}
               value={form.phone}
             />
           </div>
 
           <div className="md:col-span-2">
-            <label className="mb-2 block text-sm font-medium text-slate-700">Address</label>
+            <label className="form-label">Address</label>
             <textarea
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className="input-field mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all duration-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
               onChange={(event) => setForm({ ...form, address: event.target.value })}
               rows="4"
               value={form.address}
@@ -181,7 +177,7 @@ function StudentForm() {
         </div>
 
         <div className="mt-6 flex justify-end">
-          <button className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-teal-600/20 transition hover:bg-teal-700" type="submit">
+          <button className="btn btn-primary" type="submit">
             <Save size={16} />
             {isEdit ? 'Save changes' : 'Create student'}
           </button>

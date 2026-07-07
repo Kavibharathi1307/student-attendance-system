@@ -38,6 +38,10 @@ export function generateQrHandler(req, res) {
 export function validateQrHandler(req, res) {
   const { token } = req.body;
 
+  if (!token || typeof token !== 'string' || !token.trim()) {
+    throw httpError(400, 'QR token is required.');
+  }
+
   const session = validateQrSession(token);
 
   res.json({

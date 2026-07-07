@@ -19,12 +19,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const router = Router();
 
-// Every QR API requires login
-router.use(authenticate);
-
 // Faculty/Admin generate a QR session
 router.post(
   '/generate',
+  authenticate,
   authorizeRoles('admin', 'faculty'),
   validateGenerateQr,
   asyncHandler(generateQrHandler)
@@ -33,19 +31,22 @@ router.post(
 // Students (or logged-in users) validate a scanned QR
 router.post(
   '/validate',
+  authenticate,
   asyncHandler(validateQrHandler)
 );
 
 // Student marks attendance via QR scan
 router.post(
   '/mark-attendance',
-  authorizeRoles('student', 'admin', 'faculty'),
+  authenticate,
+  authorizeRoles('student'),
   asyncHandler(markAttendanceHandler)
 );
 
 // Admin/Faculty list all QR sessions
 router.get(
   '/sessions',
+  authenticate,
   authorizeRoles('admin', 'faculty'),
   asyncHandler(listQrSessionsHandler)
 );
@@ -53,6 +54,7 @@ router.get(
 // Admin/Faculty list active QR sessions
 router.get(
   '/sessions/active',
+  authenticate,
   authorizeRoles('admin', 'faculty'),
   asyncHandler(listActiveQrSessionsHandler)
 );
@@ -60,6 +62,7 @@ router.get(
 // Admin/Faculty get session details
 router.get(
   '/sessions/:id',
+  authenticate,
   authorizeRoles('admin', 'faculty'),
   asyncHandler(getQrSessionDetailHandler)
 );

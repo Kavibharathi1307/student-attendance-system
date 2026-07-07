@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <path d="M4 4h14v14H4z M6 6h10v10H6z" fill="#e2e8f0" fill-rule="evenodd"/>
+  <path d="M46 4h14v14H46z M48 6h10v10H48z" fill="#e2e8f0" fill-rule="evenodd"/>
+  <path d="M4 46h14v14H4z M6 48h10v10H6z" fill="#e2e8f0" fill-rule="evenodd"/>
+  <rect x="22" y="22" width="4" height="4" rx="1" fill="#e2e8f0"/>
+  <rect x="30" y="22" width="4" height="4" rx="1" fill="#e2e8f0"/>
+  <rect x="38" y="22" width="4" height="4" rx="1" fill="#94a3b8"/>
+  <rect x="22" y="30" width="4" height="4" rx="1" fill="#94a3b8"/>
+  <rect x="38" y="30" width="4" height="4" rx="1" fill="#e2e8f0"/>
+  <rect x="30" y="38" width="4" height="4" rx="1" fill="#e2e8f0"/>
+  <rect x="22" y="38" width="4" height="4" rx="1" fill="#94a3b8"/>
+  <circle cx="32" cy="32" r="10" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+  <path d="M27 32l3.5 3.5 6-6" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

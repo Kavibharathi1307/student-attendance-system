@@ -14,15 +14,13 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const router = Router();
 
-router.use(authenticate);
+router.get('/', authenticate, asyncHandler(listAttendanceHandler));
+router.get('/history', authenticate, asyncHandler(attendanceHistoryHandler));
+router.get('/history/export/csv', authenticate, asyncHandler(attendanceHistoryCsvHandler));
+router.get('/:id', authenticate, asyncHandler(getAttendanceHandler));
 
-router.get('/', asyncHandler(listAttendanceHandler));
-router.get('/history', asyncHandler(attendanceHistoryHandler));
-router.get('/history/export/csv', asyncHandler(attendanceHistoryCsvHandler));
-router.get('/:id', asyncHandler(getAttendanceHandler));
-
-router.post('/', authorizeRoles('admin', 'faculty'), validateAttendanceCreate, asyncHandler(createAttendanceHandler));
-router.put('/:id', authorizeRoles('admin', 'faculty'), validateAttendanceUpdate, asyncHandler(updateAttendanceHandler));
-router.delete('/:id', authorizeRoles('admin', 'faculty'), asyncHandler(deleteAttendanceHandler));
+router.post('/', authenticate, authorizeRoles('admin', 'faculty'), validateAttendanceCreate, asyncHandler(createAttendanceHandler));
+router.put('/:id', authenticate, authorizeRoles('admin', 'faculty'), validateAttendanceUpdate, asyncHandler(updateAttendanceHandler));
+router.delete('/:id', authenticate, authorizeRoles('admin', 'faculty'), asyncHandler(deleteAttendanceHandler));
 
 export default router;

@@ -33,6 +33,10 @@ export function generateQrSession({ facultyId, subject, attendanceDate, expiryMi
 }
 
 export function validateQrSession(token) {
+  if (!token) {
+    throw httpError(400, 'QR token is required.');
+  }
+
   const session = getQrSessionByToken(token);
 
   if (!session) {
@@ -46,6 +50,13 @@ export function validateQrSession(token) {
 
   if (!session.isActive) {
     throw httpError(400, 'QR session is inactive.');
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const attDate = new Date(session.attendanceDate + 'T00:00:00');
+  if (attDate < today) {
+    throw httpError(400, 'Attendance date cannot be in the past.');
   }
 
   return session;

@@ -13,14 +13,12 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const router = Router();
 
-router.use(authenticate);
+router.get('/dashboard', authenticate, authorizeRoles('admin', 'faculty'), asyncHandler(facultyDashboardHandler));
+router.get('/', authenticate, asyncHandler(listFacultyHandler));
+router.get('/:id', authenticate, asyncHandler(getFacultyHandler));
 
-router.get('/dashboard', asyncHandler(facultyDashboardHandler));
-router.get('/', asyncHandler(listFacultyHandler));
-router.get('/:id', asyncHandler(getFacultyHandler));
-
-router.post('/', authorizeRoles('admin'), validateFacultyCreate, asyncHandler(createFacultyHandler));
-router.put('/:id', authorizeRoles('admin'), validateFacultyUpdate, asyncHandler(updateFacultyHandler));
-router.delete('/:id', authorizeRoles('admin'), asyncHandler(deleteFacultyHandler));
+router.post('/', authenticate, authorizeRoles('admin'), validateFacultyCreate, asyncHandler(createFacultyHandler));
+router.put('/:id', authenticate, authorizeRoles('admin'), validateFacultyUpdate, asyncHandler(updateFacultyHandler));
+router.delete('/:id', authenticate, authorizeRoles('admin'), asyncHandler(deleteFacultyHandler));
 
 export default router;

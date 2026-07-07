@@ -18,15 +18,15 @@ function AdminDashboard() {
   }, []);
 
   if (loading) {
-    return <div className="rounded-[24px] border border-slate-200 bg-white/80 p-8 text-center text-slate-600 shadow-sm">Loading dashboard...</div>;
+    return <div className="loading-spinner" />;
   }
 
   if (error) {
-    return <div className="rounded-[24px] border border-red-200 bg-red-50 p-8 text-center text-sm text-red-700 shadow-sm">{error}</div>;
+    return <div className="error-state"><p className="error-state-text">{error}</p></div>;
   }
 
   if (!data) {
-    return <div className="rounded-[24px] border border-slate-200 bg-white/80 p-8 text-center text-slate-600 shadow-sm">Could not load dashboard data.</div>;
+    return <div className="error-state"><p className="error-state-text">Could not load dashboard data.</p></div>;
   }
 
   const cardTheme = (i) => {
@@ -110,7 +110,7 @@ function AdminDashboard() {
         {topCards.map((card, i) => {
           const { icon: Icon, bg } = cardTheme(i);
           return (
-            <div key={card.label} className="rounded-[22px] border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <div key={card.label} className="stat-card">
               <div className={`inline-flex rounded-2xl bg-gradient-to-br ${bg} p-2.5 text-white`}>
                 <Icon size={18} />
               </div>
@@ -123,9 +123,9 @@ function AdminDashboard() {
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {quickStats.map((stat) => (
-          <div key={stat.label} className="rounded-[22px] border border-slate-200 bg-white p-5 shadow-sm">
+          <div key={stat.label} className="stat-card">
             <p className="text-sm text-slate-500">{stat.label}</p>
-            <p className={`mt-2 inline-block rounded-full px-3 py-1 text-sm font-semibold ${stat.accent}`}>{stat.value}</p>
+            <p className={`stat-badge ${stat.accent}`}>{stat.value}</p>
           </div>
         ))}
       </div>
@@ -200,7 +200,7 @@ function AdminDashboard() {
                   <p className="font-medium text-slate-900">{rec.studentName}</p>
                   <p className="text-sm text-slate-500">{rec.subject} • {rec.attendanceDate} • {rec.facultyName}</p>
                 </div>
-                <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${rec.status === 'Present' ? 'bg-emerald-100 text-emerald-700' : rec.status === 'Late' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
+                <span className={`badge ${rec.status === 'Present' ? 'badge-present' : rec.status === 'Late' ? 'badge-late' : 'badge-absent'}`}>
                   {rec.status}
                 </span>
               </div>

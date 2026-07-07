@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { BarChart3, BookOpenCheck, Clock, GraduationCap, LayoutDashboard, LogOut, QrCode, ShieldCheck, Sparkles, Users } from 'lucide-react';
+import { BarChart3, BookOpenCheck, Clock, GraduationCap, LayoutDashboard, LogOut, QrCode, ShieldCheck, Sparkles, Users, UserRound } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 
 const navItems = {
@@ -11,17 +11,20 @@ const navItems = {
     { label: 'Faculty', to: '/admin/faculty', icon: Users },
     { label: 'Attendance', to: '/admin/attendance', icon: BookOpenCheck },
     { label: 'Attendance History', to: '/admin/attendance/history', icon: Clock },
-    { label: 'QR Sessions', to: '/admin/qr-sessions', icon: QrCode }
+    { label: 'QR Sessions', to: '/admin/qr-sessions', icon: QrCode },
+    { label: 'Profile', to: '/admin/profile', icon: UserRound }
   ],
   faculty: [
     { label: 'Overview', to: '/faculty/dashboard', icon: LayoutDashboard },
     { label: 'QR Attendance', to: '/faculty/qr', icon: QrCode },
-    { label: 'Attendance History', to: '/faculty/attendance/history', icon: Clock }
+    { label: 'Attendance History', to: '/faculty/attendance/history', icon: Clock },
+    { label: 'Profile', to: '/faculty/profile', icon: UserRound }
   ],
   student: [
     { label: 'Overview', to: '/student/dashboard', icon: LayoutDashboard },
     { label: 'QR Attendance', to: '/student/qr', icon: QrCode },
-    { label: 'Attendance History', to: '/student/attendance/history', icon: Clock }
+    { label: 'Attendance History', to: '/student/attendance/history', icon: Clock },
+    { label: 'Profile', to: '/student/profile', icon: UserRound }
   ]
 };
 
@@ -54,7 +57,7 @@ function DashboardLayout({ role, title }) {
             return (
               <NavLink
                 className={({ isActive }) =>
-                  `flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition ${isActive ? 'bg-teal-500/20 text-white shadow-lg shadow-teal-500/10' : 'text-slate-300 hover:bg-white/10 hover:text-white'}`
+                  `flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${isActive ? 'bg-teal-500/20 text-white shadow-lg shadow-teal-500/10' : 'text-slate-300 hover:translate-x-0.5 hover:bg-white/10 hover:text-white'}`
                 }
                 key={item.label}
                 to={item.to}

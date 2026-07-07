@@ -74,24 +74,24 @@ function StudentListPage() {
           <h2 className="mt-1 text-2xl font-semibold text-slate-900">Student Management</h2>
           <p className="mt-1 text-sm text-slate-500">Search, review, and manage student records from one place.</p>
         </div>
-        <Link to="/admin/students/new" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-600 to-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-teal-600/20 transition hover:shadow-xl">
+        <Link to="/admin/students/new" className="btn btn-primary">
           <Plus size={16} />
           Add student
         </Link>
       </div>
 
       {message ? (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 shadow-sm">
+        <div className="animate-slide-down rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 shadow-sm">
           {message}
         </div>
       ) : null}
 
-      <div className="rounded-[24px] border border-slate-200 bg-white/80 p-4 shadow-sm">
+      <div className="section-card p-4">
         <div className="flex flex-wrap gap-3">
-          <label className="flex min-w-[240px] flex-1 items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5">
-            <Search size={16} className="text-slate-400" />
+          <label className="input-group flex-1 min-w-[240px]">
+            <Search size={16} className="text-slate-400 shrink-0" />
             <input
-              className="w-full border-0 bg-transparent text-sm outline-none"
+              className="input-field"
               onChange={(event) => {
                 setQuery(event.target.value);
                 setPage(1);
@@ -102,7 +102,7 @@ function StudentListPage() {
           </label>
 
           <select
-            className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none"
+            className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-teal-500"
             onChange={(event) => {
               setDepartment(event.target.value);
               setPage(1);
@@ -116,7 +116,7 @@ function StudentListPage() {
           </select>
 
           <select
-            className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none"
+            className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-teal-500"
             onChange={(event) => {
               setStatus(event.target.value);
               setPage(1);
@@ -133,11 +133,11 @@ function StudentListPage() {
 
       <StudentTable students={students} loading={loading} onDelete={handleDelete} onView={handleView} />
 
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-slate-200 bg-white px-4 py-3 shadow-sm">
         <span className="text-sm text-slate-600">Page {page} of {totalPages} ({total} total)</span>
         <div className="flex items-center gap-2">
           <button
-            className="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700 transition disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-ghost rounded-full px-3 py-1.5 text-sm"
             disabled={page <= 1}
             onClick={() => setPage((current) => Math.max(1, current - 1))}
             type="button"
@@ -145,7 +145,7 @@ function StudentListPage() {
             Prev
           </button>
           <button
-            className="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700 transition disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-ghost rounded-full px-3 py-1.5 text-sm"
             disabled={page >= totalPages}
             onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
             type="button"

@@ -64,7 +64,9 @@ export function updateFaculty(id, { fullName, email, department }) {
     throw httpError(404, 'Faculty not found.');
   }
 
-  const normalizedEmail = email.trim().toLowerCase();
+  const resolvedFullName = fullName !== undefined && fullName !== null ? fullName.trim() : faculty.fullName;
+  const normalizedEmail = email !== undefined && email !== null ? email.trim().toLowerCase() : faculty.email;
+  const resolvedDepartment = department !== undefined && department !== null ? department : faculty.department;
 
   const existing = findUserByEmail(normalizedEmail);
 
@@ -73,10 +75,10 @@ export function updateFaculty(id, { fullName, email, department }) {
   }
 
   // update users table
-  updateUser(faculty.userId, { fullName: fullName.trim(), email: normalizedEmail });
+  updateUser(faculty.userId, { fullName: resolvedFullName, email: normalizedEmail });
 
   // update faculty record
-  updateFacultyRecord(id, { fullName: fullName.trim(), email: normalizedEmail, department });
+  updateFacultyRecord(id, { fullName: resolvedFullName, email: normalizedEmail, department: resolvedDepartment });
 
   return getFacultyById(id);
 }
