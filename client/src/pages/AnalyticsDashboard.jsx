@@ -101,8 +101,13 @@ const StatusBadge = memo(({ status }) => {
 export default function AnalyticsDashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({
-    dateFrom: '', dateTo: '', department: '', facultyId: '', subject: ''
+  const [filters, setFilters] = useState(() => {
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    return {
+      dateFrom: firstOfMonth, dateTo: today, department: '', facultyId: '', subject: ''
+    };
   });
 
   useEffect(() => {
@@ -124,7 +129,10 @@ export default function AnalyticsDashboard() {
   }, []);
 
   const resetFilters = useCallback(() => {
-    setFilters({ dateFrom: '', dateTo: '', department: '', facultyId: '', subject: '' });
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    setFilters({ dateFrom: firstOfMonth, dateTo: today, department: '', facultyId: '', subject: '' });
   }, []);
 
   const hasFilters = filters.dateFrom || filters.dateTo || filters.department || filters.facultyId || filters.subject;

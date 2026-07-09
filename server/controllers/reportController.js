@@ -6,7 +6,7 @@ export function attendanceReportHandler(req, res) {
 }
 
 export async function exportPdfHandler(req, res) {
-  const buffer = await generatePdfReport(req.query);
+  const buffer = await generatePdfReport(req.query, req.user);
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader('Content-Disposition', 'attachment; filename="attendance-report.pdf"');
   res.send(buffer);
